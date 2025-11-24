@@ -40,9 +40,8 @@
         /* Layout & Mobile Header */
         .app-container { display: flex; height: 100vh; display: none; position: relative; }
         
-        /* Mobile Header Bar */
         .mobile-header {
-            display: none; /* Hidden on Desktop */
+            display: none; 
             background: var(--main-color);
             color: white;
             padding: 15px;
@@ -71,8 +70,8 @@
         .main-content { flex: 1; padding: 30px; overflow-y: auto; background: var(--bg-light); width: 100%; }
         
         /* Components */
-        .table-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; overflow-x: auto; /* Scroll for mobile */ }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; min-width: 600px; /* Force scroll on small screens */ }
+        .table-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 20px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; min-width: 600px; }
         th { background: #f8f9fa; color: var(--main-color); padding: 12px; border-bottom: 2px solid var(--main-color); text-align: right; white-space: nowrap; }
         td { padding: 12px; border-bottom: 1px solid #eee; text-align: right; }
         
@@ -94,49 +93,18 @@
         .admin-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .stats-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; }
 
-        /* ================= MEDIA QUERIES FOR MOBILE ================= */
+        /* Media Queries */
         @media (max-width: 768px) {
             .mobile-header { display: flex; }
-            
-            /* Sidebar hidden by default on mobile */
-            .sidebar {
-                position: fixed;
-                top: 60px; /* Height of header */
-                right: -100%; /* Hidden */
-                bottom: 0;
-                width: 260px;
-                z-index: 999;
-                box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-            }
+            .sidebar { position: fixed; top: 60px; right: -100%; bottom: 0; width: 260px; z-index: 999; box-shadow: -2px 0 5px rgba(0,0,0,0.1); }
             .sidebar.active { right: 0; }
-
-            /* Adjust Main Content */
-            .main-content {
-                padding: 15px;
-                padding-top: 75px; /* Space for header */
-            }
-
-            /* Stack Grids */
+            .main-content { padding: 15px; padding-top: 75px; }
             .admin-panel-grid, .stats-grid { grid-template-columns: 1fr; }
-            
-            /* Chat Mobile View */
             .chat-users { width: 100%; }
-            .chat-main { 
-                width: 100%; 
-                position: absolute; 
-                top: 0; left: 0; right: 0; bottom: 0;
-                transform: translateX(-100%); /* Hidden initially */
-                transition: 0.3s;
-                z-index: 10;
-            }
-            /* When chat is active on mobile */
+            .chat-main { width: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; transform: translateX(-100%); transition: 0.3s; z-index: 10; }
             .chat-layout.mobile-chat-active .chat-main { transform: translateX(0); }
             .chat-layout.mobile-chat-active .chat-users { display: none; }
-            
-            /* Chat Back Button */
             #chatBackBtn { display: inline-block !important; margin-left: 10px; color: var(--main-color); font-size: 18px; cursor: pointer; }
-            
-            /* Header adjustments */
             .table-container h2, .table-container h3 { font-size: 18px; }
         }
     </style>
@@ -152,7 +120,7 @@
     <div><i class="fas fa-gem"></i></div>
 </div>
 
-<!-- Login -->
+<!-- Login (تم إزالة سطر اليوزر والباسورد من هنا) -->
 <div class="login-overlay" id="loginScreen" style="display:none;">
     <div class="login-box">
         <h2 style="color:var(--main-color)">كريستال عصفور</h2>
@@ -160,7 +128,6 @@
         <input type="text" id="username" class="form-control" placeholder="اسم المستخدم">
         <input type="password" id="password" class="form-control" placeholder="كلمة المرور">
         <button class="btn btn-primary" onclick="attemptLogin()">تسجيل الدخول</button>
-        <div style="margin-top:10px; font-size:12px; color:#666">لأول مرة: admin / 123</div>
     </div>
     <div class="designer-credit">Designed by Eng. Mohamed Salah</div>
 </div>
