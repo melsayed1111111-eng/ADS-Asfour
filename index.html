@@ -437,13 +437,13 @@
         // --- Config ---
         const firebaseConfig = {
             apiKey: "AIzaSyBnUnxJsxKdINvRXwnOnp-KyWBNuZ9pUhs",
-  authDomain: "asfourcrystal-a743d.firebaseapp.com",
-  databaseURL: "https://asfourcrystal-a743d-default-rtdb.firebaseio.com",
-  projectId: "asfourcrystal-a743d",
-  storageBucket: "asfourcrystal-a743d.firebasestorage.app",
-  messagingSenderId: "723647578318",
-  appId: "1:723647578318:web:181f9012ea1172c461109f",
-  measurementId: "G-RMES8SSMKQ"
+            authDomain: "asfourcrystal-a743d.firebaseapp.com",
+            databaseURL: "https://asfourcrystal-a743d-default-rtdb.firebaseio.com",
+            projectId: "asfourcrystal-a743d",
+            storageBucket: "asfourcrystal-a743d.firebasestorage.app",
+            messagingSenderId: "723647578318",
+            appId: "1:723647578318:web:181f9012ea1172c461109f",
+            measurementId: "G-RMES8SSMKQ"
         };
 
         let db;
@@ -518,10 +518,17 @@
                         role: 'admin',
                         dept: 'admin'
                     };
-                    db.ref('users').push(newAdmin);
-                    initSession({...newAdmin,
-                        id: 'temp-admin'
-                    });
+                    // هذا تعديل داخل دالة attemptLogin
+                    db.ref('users').once('value')
+                        .then(function(snap) {
+                            // ... نفس الكود القديم هنا ...
+                            // ...
+                        })
+                        .catch(function(error) {
+                            // هذا الجزء سيظهر لك سبب المشكلة
+                            alert("خطأ في الاتصال بقاعدة البيانات: " + error.message);
+                            console.error(error);
+                        });
                     return;
                 }
 
@@ -614,7 +621,17 @@
             ul.innerHTML = '';
             for (const k in departments) {
                 if (k !== 'admin') {
-                    ul.innerHTML += '<li><b>' + departments[k].name + '</b>: ' + departments[k].tasks.join(', ') + '</li>';
+                    // التصحيح: التأكد من وجود tasks قبل استخدام join
+                    let taskList = departments[k].tasks;
+                    let taskString = '';
+
+                    if (taskList && Array.isArray(taskList)) {
+                        taskString = taskList.join(', ');
+                    } else {
+                        taskString = 'لا توجد مهام مسجلة';
+                    }
+
+                    ul.innerHTML += '<li><b>' + departments[k].name + '</b>: ' + taskString + '</li>';
                 }
             }
         }
@@ -696,12 +713,13 @@
             div.innerHTML = '';
 
             let myTasks = [];
+            // التصحيح: فحص إضافي للتأكد من أن القسم والمهام موجودة
             if (departments[currentUser.dept] && departments[currentUser.dept].tasks) {
                 myTasks = departments[currentUser.dept].tasks;
             }
 
-            if (myTasks.length === 0) {
-                div.innerHTML = '<p>لا توجد مهام</p>';
+            if (!myTasks || myTasks.length === 0) {
+                div.innerHTML = '<p>لا توجد مهام محددة لهذا القسم</p>';
                 return;
             }
 
@@ -904,4 +922,3 @@
 </body>
 
 </html>
-
